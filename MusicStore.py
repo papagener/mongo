@@ -8,7 +8,8 @@ try:
     print("Connection Successful")
 except:
     print("Connection Unsuccessful. Try again later.")
-    
+
+#MusicStore, not MovieStore
 db = conn.MovieStore
 custCollection = db.Customers
 invColl = db.Inventory
