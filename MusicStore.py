@@ -16,6 +16,13 @@ inventory = db.Inventory
 shoppingCart = db.ShoppingCart
 testCust = db.TEST_Customer
 
+#get customer info and match with db
+#if match > login, else error
+def loginCustomer():
+    locate = customers.find()
+    print("Logged in")   
+
+#create a new customer account
 def createCustomer():
     db.Customers.insert({'customerID': "0112",
                             'firstName': firstName,
@@ -34,12 +41,14 @@ if choice == 1:
     
     createCustomer()
 else:
-    custLogin()
+    email = input("Enter your email: ")
+    pw = input("enter your password: ")
+    loginCustomer()
 
 
 #def custLogin():
 
-doc = customers.find()
+doc = customers.find({}, {_id: 0, firstName: 1})
 for data in doc:
     print(data['firstName'], data['lastName'], data['pw'])
     
