@@ -19,8 +19,8 @@ testCust = db.TEST_Customer
 #get customer info and match with db
 #if match > login, else error
 def loginCustomer():
-    locate = customers.find()
-    print("Logged in")   
+    login = customers.find()
+    print("You are logged in!")   
 
 #create a new customer account
 def createCustomer():
@@ -28,27 +28,36 @@ def createCustomer():
                             'firstName': firstName,
                             'lastName': lastName,
                             'email': email,
-                            'pw': password,
+                            'pw': hashpw,
                         })
+def list():
+    doc = customers.find()
+    for data in doc:
+        print(data['firstName'], data['lastName'], data['pw'])
 
-print("\nEnter 1 to Login OR Enter 2 to Create an Account: ")
+print("\nMain Menu")
+print("Enter 1 to Login. Enter 2 to Create an Account: ")
 choice = int(input())
 if choice == 1:
+    email = input("Enter your email: ")
+    pw = input("enter your password: ")   
+    loginCustomer()   
+if choice == 2:
     firstName = input("Enter your first name: ")
     lastName = input("Enter your last name: ")
     email = input("Enter your e-mail: ")
-    password = input("Enter a password: ")
+    password = input("Enter a password: ")   
+    hashpw = sha256_crypt.encrypt(password)
+    
     
     createCustomer()
-else:
-    email = input("Enter your email: ")
-    pw = input("enter your password: ")
-    loginCustomer()
+    print("Welcome!")
+if choice == 3:
+    pw = input("Enter a password: ")
+    password = sha256_crypt.encrypt(pw)
+    print(password)
+    
 
 
 #def custLogin():
-
-doc = customers.find({}, {_id: 0, firstName: 1})
-for data in doc:
-    print(data['firstName'], data['lastName'], data['pw'])
     
