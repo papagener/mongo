@@ -23,14 +23,14 @@ testCust = db.TEST_Customer
 
 #get customer info and match with db
 #if match > login, else error
+#figure out how to verify pw and email
 def loginCustomer():
     login = customers.find()
     print("You are logged in!")   
 
 #create a new customer account
 def createCustomer():
-    db.Customers.insert({'customerID': "0112",
-                            'firstName': firstName,
+    db.Customers.insert({'firstName': firstName,
                             'lastName': lastName,
                             'email': email,
                             'pw': hashpw,
@@ -51,21 +51,35 @@ if choice == 1:
     email = input("Enter your email: ")
     pw = input("enter your password: ")   
     loginCustomer()   
+    #once logged in enter a while loop for 
+
+
 if choice == 2:
     firstName = input("Enter your first name: ")
     lastName = input("Enter your last name: ")
     email = input("Enter your e-mail: ")
     password = input("Enter a password: ")   
     hashpw = sha256_crypt.encrypt(password)
+    #will have to index e-mail since that is unique
+    findUser = db.Customers.find({"email" : email})
+    if findUser is not None:
+        print("E-mail address already exists in database! Please register a different e-mail address!")
+
+    else:
+        createCustomer()        
+    
+        
+    result = db.Customers.create_index([('email', pymongo.ASCENDING)], unique = True)
+    sorted(list(db.Customers.index_information()))
     
     
     
-    createCustomer()
     print("Welcome!")
 if choice == 3:
     pw = input("Enter a password: ")
     password = sha256_crypt.encrypt(pw)
     print(password)
+    doc.list()
     
 
 
