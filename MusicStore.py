@@ -2,15 +2,20 @@ import pymongo
 from pymongo import MongoClient
 from passlib.hash import sha256_crypt
 
+#We need to have a connection, because right now we have conn.MovieStore
+#with no host
+#
+
+
 #check connection
 try:
-    conn = MongoClient()
+    conn = MongoClient('localhost', 27017)
     print("Connection Successful")
 except:
     print("Connection Unsuccessful. Try again later.")
 
 #MusicStore, not MovieStore
-db = conn.MovieStore
+db = conn.MusicStore
 customers = db.Customers
 inventory = db.Inventory
 shoppingCart = db.ShoppingCart
