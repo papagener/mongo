@@ -8,10 +8,10 @@ try:
 except:
     print("Connection Unsuccessful. Try again later.")
     
-db = conn.MovieStore
-custCollection = db.Customers
-invColl = db.Inventory
-cartColl = db.ShoppingCart
+db = conn.MusicStore
+custCollection = db.customer
+invColl = db.inventory
+cartColl = db.shoppingCart
 
 #print customers
 doc = custCollection.find()
