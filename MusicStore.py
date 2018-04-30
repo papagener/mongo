@@ -9,12 +9,12 @@ from passlib.hash import sha256_crypt
 
 #check connection
 try:
-    conn = MongoClient('localhost', 27017)
+    conn = MongoClient('localhost', 27017) #make sure the port number is correct
     print("Connection Successful")
 except:
     print("Connection Unsuccessful. Try again later.")
 
-#MusicStore, not MovieStore
+#MusicStore/MovieStore CHANGE AS NEEDED
 db = conn.MusicStore
 customers = db.Customers
 inventory = db.Inventory
@@ -40,6 +40,10 @@ def list():
     for data in doc:
         print(data['firstName'], data['lastName'], data['pw'])
 
+#Setup a menu to go through
+#Unlike Java, Python does not offer us a
+#switch statement
+#so we've just had to make a few different if statements here
 print("\nMain Menu")
 print("Enter 1 to Login. Enter 2 to Create an Account: ")
 choice = int(input())
@@ -53,6 +57,7 @@ if choice == 2:
     email = input("Enter your e-mail: ")
     password = input("Enter a password: ")   
     hashpw = sha256_crypt.encrypt(password)
+    
     
     
     createCustomer()
