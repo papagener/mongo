@@ -20,23 +20,43 @@ inventory = db.Inventory
 shoppingCart = db.ShoppingCart
 testCust = db.TEST_Customer
 
+#clear shopping cart after checking out or logging out
+def clearCart():
+    db.shoppingCart.drop()
+
+#create a new temporary shopping cart that will be removed at end of purchase.
+def newShoppingCart(selection):
+    db.shoppingCart.insert({'title': selection })
+    cart = shoppingCart.find()
+    for data in cart:
+        print(data)
+
 #Once logged in, customer can choose music titles to add to cart.
 def loggedIn():
     flag = 1
     while(flag):
         print("What would you like to do? ")
-        print("1. Buy music: " + "\n2. Log Out: ")
+        print("1. Add music to cart: " + "\n2. Check out: " + "\n3. Log Out: ")
         choice = int(input())
         
+        #add music to cart option
+        #inventory is printed for viewing purposes and title is entered to make a selection
+        #
         if choice == 1:
             all = inventory.find()
             for data in all:
-                print(data['albumID'], data['title'], data['price'], data['quantity'])
-            selection = input("Enter title: ")
-            
+                print("Title: " + data['title'] + " Price: "+ data['price'] + " Quantity: " + data['quantity'])
+            selection = input("Enter title to add to cart: ")
+            newShoppingCart(selection)
         
         if choice == 2:
-            flag = 0
+            clearCart()
+            print("You have successfully checked out! ")
+            break
+            
+            
+        if choice == 3:
+            clearCart()
             print("You have logged out. ")
             break
     
