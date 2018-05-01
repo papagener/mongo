@@ -47,13 +47,6 @@ innerLoopFlag2 = True;
 #
 #-------------------------------------------------------------------------------------------
 
-#MusicStore/MovieStore CHANGE AS NEEDED
-db = conn.MovieStore
-customers = db.Customers
-inventory = db.Inventory
-shoppingCart = db.ShoppingCart
-testCust = db.TEST_Customer
-
 #remove shopping cart after checking out or logging out
 def removeCart():
     db.shoppingCart.drop()
@@ -100,22 +93,25 @@ def loggedIn():
 def loginCustomer(email, pw):
     login = customers.find({'email': email})
     if login is None:
-        print("Invalid entry!")
+        return "Invalid entry!"
     else:
-        password = {'pw'}
-        if pw == password:
-            for data in login:
-                print("Welcome " + data['firstName'] + " " + data['lastName'])
-                print("You are logged in!")
-                innerLoopFlag3 = true;
+        for data in login:
+            password = data['pw']
+            if pw == password:
+                #return "Valid user"
+            
+                #return "You are logged in!"
+                innerLoopFlag3 = True;
                 loggedIn()
-     
+                return "Welcome " + data['firstName'] + " " + data['lastName']
+            else:
+                return "password issues"     
 #create a new customer account
 def createCustomer():
     db.Customers.insert({'firstName': firstName,
                          'lastName': lastName,
                          'email': email,
-                         'pw': hashpw,
+                         'pw': password,
                         })
 def list():
     doc = customers.find()
@@ -133,10 +129,18 @@ while outerLoopFlag == True:
 
     #2nd level indent, inside of outer while loop        
     if choice == 1:
-        email = input("Enter your email: ")
-        pw = input("Enter your password: ")   
-        loginCustomer(email, pw)
-    
+        print("Proceed? 1 for yes, 0 to return")
+        choice2 = int(input())
+        if choice2 != 1:
+            break
+        else:
+            email = input("Enter your email: ")
+            pw = input("Enter your password: ")   
+            clientLogin = loginCustomer(email, pw)
+            print(clientLogin)
+            outerLoopFlag = False
+
+
     if choice == 2:
         innerLoopFlag = True;
         while innerLoopFlag == True:
@@ -154,7 +158,7 @@ while outerLoopFlag == True:
                 createCustomer() 
                 result = db.Customers.create_index([('email', pymongo.ASCENDING)], unique = True)
                 print("Welcome!")
-                break;
+                break
             else:
                 #previously gave information that email was already registered, elected not to give
                 #that information freely
