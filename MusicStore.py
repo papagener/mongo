@@ -64,7 +64,9 @@ def loggedIn():
 #if match > login, else error
 #figure out how to verify pw and email
 def loginCustomer(email, pw):
-    login = customers.find({'email': email, 'pw': pw})
+    login = customers.find({'email': email})
+    if login is None:
+        print("Invalid entry!")
     for data in login:
         print("Welcome " + data['firstName'] + " " + data['lastName'])
         loggedIn()
