@@ -134,7 +134,7 @@ def list():
 #so we've just had to make a few different if statements here
 while outerLoopFlag == True:
     print("\nMain Menu")
-    print("Enter 1 to Login. Enter 2 to Create an Account: ")
+    print("1. Login \n2. Create an Account ")
     choice = int(input())
 
     #2nd level indent, inside of outer while loop        
