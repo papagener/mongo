@@ -53,9 +53,9 @@ def removeCart():
 
 #In progress, but need to get newShoppingcart() working first.
 def viewCart():
-    db.shoppingCart.find()
+    cart = db.shoppingCart.find()
     for data in cart:
-        print(data['title'])
+        print(data['title'], data['price'])
     
 #create a new temporary shopping cart that will be removed at end of purchase.
 #find the current music title selection and add to the new cart.
@@ -63,6 +63,7 @@ def newShoppingCart(selection):
     find = inventory.find({'title': selection})
     for data in find:
         print(data['title'], data['price'], "has been added to cart.")
+        db.shoppingCart.insert({'title': data['title'], 'price': data['price']})
     #db.shoppingCart.insert({ find })
     #cart = shoppingCart.find()
     #for data in cart:
@@ -83,7 +84,7 @@ def loggedIn():
             print("\nMusic List:")
             all = inventory.find()
             for data in all:
-                print("Title: " + data['title'])
+                print("Title: " + data['title'], data['price'])
             selection = input("Enter title to add to cart: ")
             newShoppingCart(selection)
         
@@ -95,7 +96,6 @@ def loggedIn():
             #cart validation to be inserted here
             removeCart()
             print("\nYou have successfully checked out! ")
-            break
             
         if choice == 4:
             #destroy cart if logged out
