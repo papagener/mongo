@@ -27,7 +27,7 @@ db = conn.MovieStore
 
 customers = db.Customers
 #select (or create) collection Inventory
-inventory = db.inventory
+inventory = db.Inventory
 #select (or create) collection ShoppingCart
 shoppingCart = db.ShoppingCart
 #select (or create) collection TEST_Customer
@@ -51,36 +51,43 @@ innerLoopFlag2 = True;
 def removeCart():
     db.shoppingCart.drop()
 
+def viewCart():
+    db.shoppingcart.find()
+    for data in cart:
+        print(data['title'])
+    
 #create a new temporary shopping cart that will be removed at end of purchase.
 def newShoppingCart(selection):
-    db.shoppingCart.insert({'title': selection })
+    find = inventory.find({'title': selection})
+    for data in find:
+        print(data['title'], data['price'])
+    db.shoppingCart.insert({ find })
     cart = shoppingCart.find()
     for data in cart:
-        print(data)
+        print(data['title'])
 
 #Once logged in, customer can choose music titles to add to cart.
 def loggedIn():
     flag = 1
     while flag == 1:
         print("What would you like to do? ")
-        print("1. Add music to cart: " + "\n2. List all music" +"\n3. Check out: " + "\n4. Log Out: ")
+        print("1. Add music to cart " + "\n2. View cart" +"\n3. Check out " + "\n4. Log Out ")
         choice = int(input())
         
         #add music to cart option
         #inventory is printed for viewing purposes and title is entered to make a selection
         #
         if choice == 1:
+            print("\nMusic List:")
             all = inventory.find()
             for data in all:
-                return "Title: " + data['title'] + " Price: "+ data['price'] + " Quantity: " + data['quantity']
+                print("Title: " + data['title'])
             selection = input("Enter title to add to cart: ")
             newShoppingCart(selection)
         
         if choice == 2:
-            all = inventory.find()
-            for document in all:
-                print("This is choice 2" + document['title'])
-                break
+            print("/nYour cart: ")
+            viewCart()
 
         if choice == 3:
             removeCart()
@@ -107,11 +114,11 @@ def loginCustomer(email, pw):
                 #return "Valid user"
             
                 #return "You are logged in!"
+                print("\nWelcome " + data['firstName'] + " " + data['lastName'])
                 innerLoopFlag3 = True;
                 loggedIn()
-                #return "Welcome " + data['firstName'] + " " + data['lastName']
             else:
-                return "password issues"     
+                return "The Password does not match. Try again."     
 #create a new customer account
 def createCustomer():
     db.Customers.insert({'firstName': firstName,
@@ -135,17 +142,11 @@ while outerLoopFlag == True:
 
     #2nd level indent, inside of outer while loop        
     if choice == 1:
-        print("Proceed? 1 for yes, 0 to return")
-        choice2 = int(input())
-        if choice2 != 1:
-            break
-        else:
-            email = input("Enter your email: ")
-            pw = input("Enter your password: ")   
-            clientLogin = loginCustomer(email, pw)
-            print(clientLogin)
-            outerLoopFlag = False
-
+        email = input("Enter your email: ")
+        pw = input("Enter your password: ")   
+        clientLogin = loginCustomer(email, pw)
+        print(clientLogin)
+        outerLoopFlag = False
 
     if choice == 2:
         innerLoopFlag = True;
@@ -170,8 +171,4 @@ while outerLoopFlag == True:
                 #that information freely
                 print("Invalid entry") 
                        
-    
-
-
-#def custLogin():
     
