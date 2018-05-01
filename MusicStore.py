@@ -20,12 +20,6 @@ try:
 except:
     print("Connection Unsuccessful. Try again later.")
 
-
-#Connection to database made
-#Select database
-#MusicStore (CHANGE AS NEEDED)
-db = conn.MusicStore
-
 #all collections are occurring in MusicStore
 #select (or create) collection Customers
 #MusicStore/MovieStore CHANGE AS NEEDED
