@@ -51,8 +51,9 @@ innerLoopFlag2 = True;
 def removeCart():
     db.shoppingCart.drop()
 
+#In progress, but need to get newShoppingcart() working first.
 def viewCart():
-    db.shoppingcart.find()
+    db.shoppingCart.find()
     for data in cart:
         print(data['title'])
     
@@ -87,18 +88,19 @@ def loggedIn():
             newShoppingCart(selection)
         
         if choice == 2:
-            print("/nYour cart: ")
+            print("\nYour cart: ")
             viewCart()
 
         if choice == 3:
             #cart validation to be inserted here
             removeCart()
-            print("You have successfully checked out! ")
+            print("\nYou have successfully checked out! ")
             break
             
         if choice == 4:
+            #destroy cart if logged out
             removeCart()
-            print("You have logged out. ")
+            print("\nYou have logged out. ")
             break
     
 #get customer info and match with db
@@ -115,7 +117,7 @@ def loginCustomer(email, pw):
                 #return "Valid user"
             
                 #return "You are logged in!"
-                print("\nWelcome " + data['firstName'] + " " + data['lastName'])
+                print("\nWelcome " + data['firstName'] + " " + data['lastName']+"!")
                 innerLoopFlag3 = True;
                 loggedIn()
             else:
