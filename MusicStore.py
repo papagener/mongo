@@ -34,7 +34,7 @@ def newShoppingCart(selection):
 #Once logged in, customer can choose music titles to add to cart.
 def loggedIn():
     flag = 1
-    while(flag):
+    while flag == 1:
         print("What would you like to do? ")
         print("1. Add music to cart: " + "\n2. Check out: " + "\n3. Log Out: ")
         choice = int(input())
