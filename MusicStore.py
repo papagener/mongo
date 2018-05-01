@@ -67,9 +67,14 @@ def loginCustomer(email, pw):
     login = customers.find({'email': email})
     if login is None:
         print("Invalid entry!")
-    for data in login:
-        print("Welcome " + data['firstName'] + " " + data['lastName'])
-        loggedIn()
+    else:
+        password = {'pw':}
+        if pw == password:
+            for data in login:
+                print("Welcome " + data['firstName'] + " " + data['lastName'])
+                print("You are logged in!")
+                innerLoopFlag3 = true;
+                loggedIn()
      
 #create a new customer account
 def createCustomer():
