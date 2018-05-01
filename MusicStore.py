@@ -57,20 +57,21 @@ def viewCart():
         print(data['title'])
     
 #create a new temporary shopping cart that will be removed at end of purchase.
+#find the current music title selection and add to the new cart.
 def newShoppingCart(selection):
     find = inventory.find({'title': selection})
     for data in find:
-        print(data['title'], data['price'])
-    db.shoppingCart.insert({ find })
-    cart = shoppingCart.find()
-    for data in cart:
-        print(data['title'])
+        print(data['title'], data['price'], "has been added to cart.")
+    #db.shoppingCart.insert({ find })
+    #cart = shoppingCart.find()
+    #for data in cart:
+        #print(data['title'])
 
 #Once logged in, customer can choose music titles to add to cart.
 def loggedIn():
     flag = 1
     while flag == 1:
-        print("What would you like to do? ")
+        print("\nWhat would you like to do? ")
         print("1. Add music to cart " + "\n2. View cart" +"\n3. Check out " + "\n4. Log Out ")
         choice = int(input())
         
@@ -90,14 +91,14 @@ def loggedIn():
             viewCart()
 
         if choice == 3:
+            #cart validation to be inserted here
             removeCart()
             print("You have successfully checked out! ")
             break
             
-            
         if choice == 4:
             removeCart()
-            return "You have logged out. "
+            print("You have logged out. ")
             break
     
 #get customer info and match with db
@@ -118,7 +119,7 @@ def loginCustomer(email, pw):
                 innerLoopFlag3 = True;
                 loggedIn()
             else:
-                return "The Password does not match. Try again."     
+                return "The Email and Password did not match. Try again."     
 #create a new customer account
 def createCustomer():
     db.Customers.insert({'firstName': firstName,
