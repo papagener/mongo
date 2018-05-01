@@ -60,8 +60,8 @@ inventory = db.Inventory
 shoppingCart = db.ShoppingCart
 testCust = db.TEST_Customer
 
-#clear shopping cart after checking out or logging out
-def clearCart():
+#remove shopping cart after checking out or logging out
+def removeCart():
     db.shoppingCart.drop()
 
 #create a new temporary shopping cart that will be removed at end of purchase.
@@ -90,13 +90,13 @@ def loggedIn():
             newShoppingCart(selection)
         
         if choice == 2:
-            clearCart()
+            removeCart()
             print("You have successfully checked out! ")
             break
             
             
         if choice == 3:
-            clearCart()
+            removeCart()
             print("You have logged out. ")
             break
     
@@ -138,6 +138,11 @@ while outerLoopFlag == True:
     choice = int(input())
 
     #2nd level indent, inside of outer while loop        
+    if choice == 1:
+        email = input("Enter your email: ")
+        pw = input("Enter your password: ")   
+        loginCustomer(email, pw)
+    
     if choice == 2:
         innerLoopFlag = True;
         while innerLoopFlag == True:
