@@ -27,7 +27,7 @@ db = conn.MovieStore
 
 customers = db.Customers
 #select (or create) collection Inventory
-inventory = db.Inventory
+inventory = db.inventory
 #select (or create) collection ShoppingCart
 shoppingCart = db.ShoppingCart
 #select (or create) collection TEST_Customer
@@ -63,7 +63,7 @@ def loggedIn():
     flag = 1
     while flag == 1:
         print("What would you like to do? ")
-        print("1. Add music to cart: " + "\n2. Check out: " + "\n3. Log Out: ")
+        print("1. Add music to cart: " + "\n2. List all music" +"\n3. Check out: " + "\n4. Log Out: ")
         choice = int(input())
         
         #add music to cart option
@@ -72,19 +72,25 @@ def loggedIn():
         if choice == 1:
             all = inventory.find()
             for data in all:
-                print("Title: " + data['title'] + " Price: "+ data['price'] + " Quantity: " + data['quantity'])
+                return "Title: " + data['title'] + " Price: "+ data['price'] + " Quantity: " + data['quantity']
             selection = input("Enter title to add to cart: ")
             newShoppingCart(selection)
         
         if choice == 2:
+            all = inventory.find()
+            for document in all:
+                print("This is choice 2" + document['title'])
+                break
+
+        if choice == 3:
             removeCart()
             print("You have successfully checked out! ")
             break
             
             
-        if choice == 3:
+        if choice == 4:
             removeCart()
-            print("You have logged out. ")
+            return "You have logged out. "
             break
     
 #get customer info and match with db
@@ -103,7 +109,7 @@ def loginCustomer(email, pw):
                 #return "You are logged in!"
                 innerLoopFlag3 = True;
                 loggedIn()
-                return "Welcome " + data['firstName'] + " " + data['lastName']
+                #return "Welcome " + data['firstName'] + " " + data['lastName']
             else:
                 return "password issues"     
 #create a new customer account
