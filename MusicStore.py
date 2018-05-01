@@ -20,6 +20,7 @@ try:
 except:
     print("Connection Unsuccessful. Try again later.")
 
+
 #Connection to database made
 #Select database
 #MusicStore (CHANGE AS NEEDED)
@@ -27,6 +28,9 @@ db = conn.MusicStore
 
 #all collections are occurring in MusicStore
 #select (or create) collection Customers
+#MusicStore/MovieStore CHANGE AS NEEDED
+db = conn.MovieStore
+
 customers = db.Customers
 #select (or create) collection Inventory
 inventory = db.Inventory
@@ -50,6 +54,47 @@ innerLoopFlag2 = True;
 #-------------------------------------------------------------------------------------------
 
 
+#clear shopping cart after checking out or logging out
+def clearCart():
+    db.shoppingCart.drop()
+
+#create a new temporary shopping cart that will be removed at end of purchase.
+def newShoppingCart(selection):
+    db.shoppingCart.insert({'title': selection })
+    cart = shoppingCart.find()
+    for data in cart:
+        print(data)
+
+#Once logged in, customer can choose music titles to add to cart.
+def loggedIn():
+    flag = 1
+    while flag == 1:
+        print("What would you like to do? ")
+        print("1. Add music to cart: " + "\n2. Check out: " + "\n3. Log Out: ")
+        choice = int(input())
+        
+        #add music to cart option
+        #inventory is printed for viewing purposes and title is entered to make a selection
+        #
+        if choice == 1:
+            all = inventory.find()
+            for data in all:
+                print("Title: " + data['title'] + " Price: "+ data['price'] + " Quantity: " + data['quantity'])
+            selection = input("Enter title to add to cart: ")
+            newShoppingCart(selection)
+        
+        if choice == 2:
+            clearCart()
+            print("You have successfully checked out! ")
+            break
+            
+            
+        if choice == 3:
+            clearCart()
+            print("You have logged out. ")
+            break
+    
+
 #get customer info and match with db
 #if match > login, else error
 #figure out how to verify pw and email
@@ -69,30 +114,20 @@ def createCustomer():
                             'lastName': lastName,
                             'email': email,
                             'pw': hashpw,
-                        })
-def list():
-    doc = customers.find()
-    for data in doc:
-        print(data['firstName'], data['lastName'], data['pw'])
+    login = customers.find({'email': email, 'pw': pw})
+    for data in login:
+        print("Welcome " + data['firstName'] + " " + data['lastName'])
+        loggedIn()
+    
 
 #Set up a menu to go through
 #Unlike Java, Python does not offer us a
 #switch statement
 #so we've just had to make a few different if statements here
-
 while outerLoopFlag == True:
     print("\nMain Menu")
     print("Enter 1 to Login. Enter 2 to Create an Account: ")
     choice = int(input())
-    
-    #2nd level indent, inside of outer while loop
-    if choice == 1:
-        email = input("Enter your email: ")
-        pw = input("enter your password: ")   
-        loginCustomer(email, pw)   
-        #once logged in enter a while loop for 
-
-
 
     #2nd level indent, inside of outer while loop        
     if choice == 2:
@@ -130,6 +165,8 @@ while outerLoopFlag == True:
         password = sha256_crypt.encrypt(pw)
         print(password)
         doc.list()
+
+
     
 
 
