@@ -112,7 +112,7 @@ if choice == 2:
     #hashing verifcation not working. Keeping password unhashed.
     
     #will have to index e-mail since that is unique
-    findUser = db.Customers.find({"email" : email})
+    findUser = db.Customers.find_one({"email" : email})
     if findUser is not None:
         print("E-mail address already exists in database! Please register a different e-mail address!")
     else:
