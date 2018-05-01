@@ -108,7 +108,7 @@ def loginCustomer(email, pw):
     if login is None:
         print("Invalid entry!")
     else:
-        password = {'pw':}
+        password = {'pw'}
         if pw == password:
             for data in login:
                 print("Welcome " + data['firstName'] + " " + data['lastName'])
